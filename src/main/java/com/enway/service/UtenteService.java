@@ -9,4 +9,5 @@ public interface UtenteService {
 	public List<Utente> showByAdult(boolean adult);
 	public List<Utente> showAllUtenti();
 	public List<Utente> deleteUtente(Integer id);
+	public void writeXlsx(List<Utente> utenti);
 }

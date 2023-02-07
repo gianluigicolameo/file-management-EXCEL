@@ -20,6 +20,7 @@ public class UtenteController {
 	private UtenteService utenteService;
 	
 	
+	
 	@GetMapping("/utenti")
 	public List<Utente> showUtenti() {
 		return utenteService.showAllUtenti();
@@ -39,6 +40,12 @@ public class UtenteController {
 	public List<Utente> deleteUtente(@RequestParam Integer id){
 		utenteService.deleteUtente(id);
 		return utenteService.showAllUtenti();
+	}
+	@GetMapping("/excel")
+	public List<Utente> createExcel(){
+		List<Utente> utenti = utenteService.showAllUtenti();
+		utenteService.writeXlsx(utenti);
+		return utenti;
 	}
 	
 }
