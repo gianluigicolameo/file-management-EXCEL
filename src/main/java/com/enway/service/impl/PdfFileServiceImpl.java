@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import com.enway.entity.Utente;
 import com.enway.service.FileService;
 import com.itextpdf.text.Document;
+import com.itextpdf.text.Image;
 import com.itextpdf.text.pdf.PdfWriter;
 
 @Service
@@ -36,6 +37,14 @@ public class PdfFileServiceImpl implements FileService {
 			}
 			
 			document.add(orderedList);
+			
+            Image image = Image.getInstance("C:/Users/n.laperna/Downloads/image.png");
+            // Set the position of the image.
+            image.setAbsolutePosition(0, 0);
+            image.scaleToFit(70, 70);
+ 
+            // Adding image to the document
+            document.add(image);
 
 			document.close();
 			outputStream.close();
