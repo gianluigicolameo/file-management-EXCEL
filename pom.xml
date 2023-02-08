@@ -15,6 +15,7 @@
 	<description>Example of CRUD operations with different file formats</description>
 	<properties>
 		<java.version>1.8</java.version>
+		<itext.version>7.2.5</itext.version>
 	</properties>
 	<dependencies>
 		<dependency>
@@ -50,6 +51,17 @@
 			<artifactId>poi-ooxml</artifactId>
 			<version>4.1.2</version>
 		</dependency>
+        <dependency>
+        	<groupId>com.itextpdf</groupId>
+        	<artifactId>itext7-core</artifactId>
+        	<version>${itext.version}</version>
+        	<type>pom</type>
+    	</dependency>
+    	<dependency>
+	<groupId>com.itextpdf</groupId>
+	<artifactId>itextpdf</artifactId>
+	<version>5.5.6</version>
+</dependency>
 	</dependencies>
 	<build>
 		<plugins>

@@ -12,12 +12,16 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.enway.entity.Utente;
+import com.enway.service.FileService;
 import com.enway.service.UtenteService;
 
 @RestController
 public class UtenteController {
 	@Autowired
 	private UtenteService utenteService;
+	
+	@Autowired
+	private FileService fileService;
 	
 	
 	
@@ -47,5 +51,13 @@ public class UtenteController {
 		utenteService.writeXlsx(utenti);
 		return utenti;
 	}
+	
+	@GetMapping("/pdf")
+	public List<Utente> createPdf(){
+		List<Utente> utenti = utenteService.showAllUtenti();
+		fileService.writePdf(utenti);
+		return utenti;
+	}
+	
 	
 }

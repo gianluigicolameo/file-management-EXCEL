@@ -82,5 +82,13 @@ public class Utente {
 		this.salary = salary;
 		this.adult = adult;
 	}
+
+	@Override
+	public String toString() {
+		return firstName + " " + lastName + ", age = " + age + ", salary = "
+				+ salary + ", adult = " + adult;
+	}
+	
+	
 	
 }
