@@ -52,9 +52,9 @@ public class UtenteServiceImpl implements UtenteService{
 		Cell cell1 = row.createCell(1);
 		Cell cell2 = row.createCell(2);
 		
-		cell0.setCellValue("Prova");
-		cell1.setCellValue("Numero");
-		cell2.setCellValue("Uno");
+		cell0.setCellValue("Nome");
+		cell1.setCellValue("Cognome");
+		cell2.setCellValue("Età");
 		
 		
 		for(int i=0; i< utenti.size(); i++) {
