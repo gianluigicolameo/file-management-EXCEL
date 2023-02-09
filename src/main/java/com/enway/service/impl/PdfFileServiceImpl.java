@@ -5,6 +5,8 @@ import java.io.FileOutputStream;
 import java.io.OutputStream;
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import com.enway.entity.Utente;
@@ -14,6 +16,7 @@ import com.itextpdf.text.pdf.PdfWriter;
 
 @Service
 public class PdfFileServiceImpl implements FileService {
+	private static final Logger logger = LoggerFactory.getLogger(PdfFileServiceImpl.class);
 
 	public void writePdf(List<Utente> utenti) {
 
@@ -40,10 +43,10 @@ public class PdfFileServiceImpl implements FileService {
 			document.close();
 			outputStream.close();
 
-			System.out.println("Pdf created successfully.");
+			logger.info("Pdf creato con successo");
 
 		} catch (Exception e) {
-			e.printStackTrace();
+			logger.warn("Errore nella creazione del file.");
 		}
 	}
 

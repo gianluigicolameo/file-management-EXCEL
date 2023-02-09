@@ -4,12 +4,13 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.List;
-import java.util.Optional;
 
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -22,6 +23,7 @@ public class UtenteServiceImpl implements UtenteService{
 	
 	@Autowired
 	UtenteRepository utenteRepository;
+	private static final Logger logger = LoggerFactory.getLogger(UtenteServiceImpl.class);
 	
 	public void addOrUpdateUtente(Utente utente) {
 		utenteRepository.save(utente);
@@ -78,15 +80,15 @@ public class UtenteServiceImpl implements UtenteService{
 			workbook.write(fos);
 			fos.close();
 			workbook.close();
-			System.out.println("Excel creato");
+			logger.info("Excel creato");
 		} catch (FileNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-			System.out.println("Errore nella creazione del file.");
+			logger.warn("Errore nella creazione de file.");
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+			logger.warn("Errore nella scrittura workbook.");
+		} 
 		
 	}
 	

@@ -9,13 +9,15 @@ import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.enway.entity.Utente;
 import com.enway.service.UtenteService;
 
 
 public class ExcelServiceImpl implements UtenteService{
-
+	private static final Logger logger = LoggerFactory.getLogger(PdfFileServiceImpl.class);
 	@Override
 	public void addOrUpdateUtente(Utente utente) {
 		// TODO Auto-generated method stub
@@ -76,14 +78,15 @@ public class ExcelServiceImpl implements UtenteService{
 			workbook.write(fos);
 			fos.close();
 			workbook.close();
-			System.out.println("Excel creato");
+			logger.info("Excel creato");
 		} catch (FileNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-			System.out.println("Errore nella creazione del file.");
+			logger.warn("Errore nella creazione del file");			
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+			logger.warn("Errore nella scrittura su workbook");
 		}
 		
      }
