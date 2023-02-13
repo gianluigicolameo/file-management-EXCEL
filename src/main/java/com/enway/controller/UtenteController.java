@@ -1,5 +1,6 @@
 package com.enway.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,8 +24,6 @@ public class UtenteController {
 	@Autowired
 	private FileService fileService;
 	
-	
-	
 	@GetMapping("/utenti")
 	public List<Utente> showUtenti() {
 		return utenteService.showAllUtenti();
@@ -46,16 +45,16 @@ public class UtenteController {
 		return utenteService.showAllUtenti();
 	}
 	@GetMapping("/excel")
-	public List<Utente> createExcel(){
-		List<Utente> utenti = utenteService.showAllUtenti();
-		utenteService.writeXlsx(utenti);
+	public ArrayList<Utente> createExcel(){
+		ArrayList<Utente> utenti = utenteService.showAllUtenti();
+		fileService.writeFile(utenti);
 		return utenti;
 	}
 	
 	@GetMapping("/pdf")
-	public List<Utente> createPdf(){
-		List<Utente> utenti = utenteService.showAllUtenti();
-		fileService.writePdf(utenti);
+	public ArrayList<Utente> createPdf(){
+		ArrayList<Utente> utenti = utenteService.showAllUtenti();
+		fileService.writeFile(utenti);
 		return utenti;
 	}
 	
