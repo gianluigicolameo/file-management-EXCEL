@@ -13,6 +13,7 @@ import com.enway.entity.Utente;
 import com.enway.service.FileService;
 import com.itextpdf.text.Document;
 import com.itextpdf.text.Image;
+import com.itextpdf.text.ListItem;
 import com.itextpdf.text.pdf.PdfWriter;
 
 @Service
@@ -33,10 +34,12 @@ public class PdfFileServiceImpl implements FileService {
 			
 			document.addTitle("Lista studenti");
 			
+			// List orderedList = new List(List.ORDERED);
+			
 			com.itextpdf.text.List orderedList = new com.itextpdf.text.List(com.itextpdf.text.List.ORDERED);
 			
 			for(int i=0; i< utenti.size(); i++) {
-				orderedList.add(new com.itextpdf.text.ListItem(utenti.get(i).toString()));
+				orderedList.add(new ListItem(utenti.get(i).toString()));
 			}
 			
 			document.add(orderedList);
