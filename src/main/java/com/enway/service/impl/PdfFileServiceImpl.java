@@ -3,7 +3,7 @@ package com.enway.service.impl;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.OutputStream;
-import java.util.List;
+import java.util.ArrayList;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -20,7 +20,7 @@ import com.itextpdf.text.pdf.PdfWriter;
 public class PdfFileServiceImpl implements FileService {
 	private static final Logger logger = LoggerFactory.getLogger(PdfFileServiceImpl.class);
 
-	public void writePdf(List<Utente> utenti) {
+	public void writeFile(ArrayList<Utente> utenti) {
 
 		try {
 
@@ -60,6 +60,24 @@ public class PdfFileServiceImpl implements FileService {
 		} catch (Exception e) {
 			logger.warn("Errore nella creazione del file.");
 		}
+	}
+
+	@Override
+	public void createFile() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void updateFile(ArrayList<Utente> utenti) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void deleteFile() {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

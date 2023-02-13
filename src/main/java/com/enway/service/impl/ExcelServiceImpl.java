@@ -3,8 +3,7 @@ package com.enway.service.impl;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.util.List;
-import java.util.stream.Collectors;
+import java.util.ArrayList;
 
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.xssf.usermodel.XSSFRow;
@@ -12,40 +11,18 @@ import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Service;
 
 import com.enway.entity.Utente;
-import com.enway.service.UtenteService;
+import com.enway.service.FileService;
 
+@Service
+public class ExcelServiceImpl implements FileService {
 
-public class ExcelServiceImpl implements UtenteService{
 	
 	private static final Logger logger = LoggerFactory.getLogger(PdfFileServiceImpl.class);
-	
-	@Override
-	public void addOrUpdateUtente(Utente utente) {
-		// TODO Auto-generated method stub
-		
-	}
 
-	@Override
-	public List<Utente> showByAdult(boolean adult) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public List<Utente> showAllUtenti() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public List<Utente> deleteUtente(Integer id) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-	
-	public void writeXlsx(List<Utente> utenti) {
+	public void writeFile(ArrayList<Utente> utenti) {
 		XSSFWorkbook workbook = new XSSFWorkbook();
 		XSSFSheet sheet = workbook.createSheet("First Try");
 		XSSFRow row = null;
@@ -97,5 +74,22 @@ public class ExcelServiceImpl implements UtenteService{
 		}
 		
      }
-}
 
+	@Override
+	public void createFile() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void updateFile(ArrayList<Utente> utenti) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void deleteFile() {
+		// TODO Auto-generated method stub
+		
+	}
+}
