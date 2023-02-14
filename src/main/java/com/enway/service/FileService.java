@@ -6,12 +6,10 @@ import com.enway.entity.Utente;
 
 public interface FileService {
 	
-	public void createFile();
+	public void writeFile(ArrayList<Utente> utenti, String path);
 	
-	public void writeFile(ArrayList<Utente> utenti);
+	public void updateFile(ArrayList<Utente> utenti, String path);
 	
-	public void updateFile(ArrayList<Utente> utenti);
-	
-	public void deleteFile();
+	public void deleteFile(String path);
 	
 }

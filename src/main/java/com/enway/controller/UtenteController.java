@@ -1,7 +1,6 @@
 package com.enway.controller;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -25,22 +24,22 @@ public class UtenteController {
 	private FileService fileService;
 	
 	@GetMapping("/utenti")
-	public List<Utente> showUtenti() {
+	public ArrayList<Utente> showUtenti() {
 		return utenteService.showAllUtenti();
 	}
 	
 	@PostMapping("/utente")
-	public List<Utente> addUtente(@RequestBody Utente utente){
+	public ArrayList<Utente> addUtente(@RequestBody Utente utente){
 		utenteService.addOrUpdateUtente(utente);
 		return utenteService.showAllUtenti();
 	}
 	@PutMapping("/utente")
-	public List<Utente> updateUtente(@RequestBody Utente utente){
+	public ArrayList<Utente> updateUtente(@RequestBody Utente utente){
 		utenteService.addOrUpdateUtente(utente);
 		return utenteService.showAllUtenti();
 	}
 	@DeleteMapping("/utente")
-	public List<Utente> deleteUtente(@RequestParam Integer id){
+	public ArrayList<Utente> deleteUtente(@RequestParam Integer id){
 		utenteService.deleteUtente(id);
 		return utenteService.showAllUtenti();
 	}

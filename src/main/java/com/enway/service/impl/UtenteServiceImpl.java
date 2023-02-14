@@ -25,11 +25,11 @@ public class UtenteServiceImpl implements UtenteService{
 		return utenti;
 	}
 	
-	public List<Utente> showByAdult(boolean adult) {
+	public ArrayList<Utente> showByAdult(boolean adult) {
 		List<Utente> utentiAdult= utenteRepository.findByAdult(adult);
-		return utentiAdult;
+		return (ArrayList<Utente>) utentiAdult;
 	}
-	public List<Utente> deleteUtente(Integer id) {		
+	public ArrayList<Utente> deleteUtente(Integer id) {		
 		utenteRepository.deleteById(id);
 		return showAllUtenti();
 	}
