@@ -10,7 +10,7 @@ public interface FileService {
 	
 	public void writeFile(ArrayList<Utente> utenti);
 	
-	public void updateFile(ArrayList<Utente> utenti);
+	public void updateFile(ArrayList<Utente> utenti, String path, String textToAdd);
 	
 	public void deleteFile();
 	
