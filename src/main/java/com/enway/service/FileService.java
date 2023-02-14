@@ -10,6 +10,12 @@ public interface FileService {
 	
 	public void updateFile(ArrayList<Utente> utenti, String path);
 	
+<<<<<<< HEAD
 	public void deleteFile(String path);
+=======
+	public void updateFile(ArrayList<Utente> utenti, String path, String textToAdd);
+	
+	public void deleteFile();
+>>>>>>> ddf3a29086ed0dfc4f08803d29700f7e7a52de6d
 	
 }

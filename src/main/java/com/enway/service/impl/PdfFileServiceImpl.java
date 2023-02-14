@@ -12,8 +12,14 @@ import org.springframework.stereotype.Service;
 import com.enway.entity.Utente;
 import com.enway.service.FileService;
 import com.itextpdf.text.Document;
+import com.itextpdf.text.Element;
 import com.itextpdf.text.Image;
+import com.itextpdf.text.List;
 import com.itextpdf.text.ListItem;
+import com.itextpdf.text.pdf.BaseFont;
+import com.itextpdf.text.pdf.PdfContentByte;
+import com.itextpdf.text.pdf.PdfReader;
+import com.itextpdf.text.pdf.PdfStamper;
 import com.itextpdf.text.pdf.PdfWriter;
 
 @Service
@@ -36,7 +42,7 @@ public class PdfFileServiceImpl implements FileService {
 			
 			// List orderedList = new List(List.ORDERED);
 			
-			com.itextpdf.text.List orderedList = new com.itextpdf.text.List(com.itextpdf.text.List.ORDERED);
+			List orderedList = new List(List.ORDERED);
 			
 			for(int i=0; i< utenti.size(); i++) {
 				orderedList.add(new ListItem(utenti.get(i).toString()));
@@ -58,13 +64,51 @@ public class PdfFileServiceImpl implements FileService {
 			logger.info("Pdf creato con successo");
 
 		} catch (Exception e) {
-			logger.warn("Errore nella creazione del file.");
+			logger.error("Errore nella creazione del file.");
 		}
 	}
 
 	@Override
+<<<<<<< HEAD
 	public void updateFile(ArrayList<Utente> utenti) {
+=======
+	public void createFile() {
 		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void updateFile(ArrayList<Utente> utenti, String path, String textToAdd) {
+>>>>>>> ddf3a29086ed0dfc4f08803d29700f7e7a52de6d
+		// TODO Auto-generated method stub
+		try {
+			PdfReader pdfReader = new PdfReader(path);
+			
+			OutputStream outputStream = new FileOutputStream(new File(path));
+			
+			PdfStamper pdfStamper = new PdfStamper(pdfReader, outputStream);
+			
+			PdfContentByte canvas = pdfStamper.getOverContent(1); // ottiene il content stream della prima pagina del PDF
+			
+			BaseFont font = BaseFont.createFont(BaseFont.HELVETICA, BaseFont.WINANSI, BaseFont.EMBEDDED);
+			
+			canvas.beginText();
+			
+			canvas.setFontAndSize(font, 12);
+			
+			canvas.showTextAligned(Element.ALIGN_CENTER, textToAdd, 300, 500, 0);
+			
+			canvas.endText();	
+			
+			pdfStamper.close();
+			
+			pdfReader.close();
+
+			
+			logger.info("Pdf modificato con successo");
+		} catch (Exception e) {
+			logger.error("Errore nella modifica del file.");
+		}
 		
 	}
 
