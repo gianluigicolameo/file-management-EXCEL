@@ -144,6 +144,7 @@ public class ExcelServiceImpl implements FileService {
             FileOutputStream outputStream = new FileOutputStream(path);
             workbook.write(outputStream);
             outputStream.close();
+            workbook.close();
 			logger.info("Excel modificato");
 		} catch (FileNotFoundException e) {
 
