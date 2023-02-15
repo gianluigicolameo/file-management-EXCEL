@@ -3,9 +3,9 @@ package com.enway.controller;
 import java.util.ArrayList;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -22,7 +22,12 @@ public class UtenteController {
 	private UtenteService utenteService;
 	
 	@Autowired
-	private FileService fileService;
+	@Qualifier("pdfFileServiceImpl")
+	private FileService pdfFileService;
+	
+	@Autowired
+	@Qualifier("excelServiceImpl")
+	private FileService excelFileService;
 	
 	@GetMapping("/utenti")
 	public ArrayList<Utente> showUtenti() {
@@ -45,23 +50,30 @@ public class UtenteController {
 		return utenteService.showAllUtenti();
 	}
 	@GetMapping("/excel")
-	public ArrayList<Utente> createExcel(){
+	public ArrayList<Utente> createExcel(@RequestParam String path){
 		ArrayList<Utente> utenti = utenteService.showAllUtenti();
-		fileService.writeFile(utenti);
+		excelFileService.writeFile(utenti, path);
 		return utenti;
 	}
 	
 	@GetMapping("/pdf")
-	public ArrayList<Utente> createPdf(){
+	public ArrayList<Utente> createPdf(@RequestParam String path){
 		ArrayList<Utente> utenti = utenteService.showAllUtenti();
-		fileService.writeFile(utenti);
+		pdfFileService.writeFile(utenti, path);
 		return utenti;
 	}
 	
 	@PutMapping("/pdf-update")
-	public ArrayList<Utente> updatePdf(@RequestBody String path, @RequestBody String textToAdd){
+	public ArrayList<Utente> updatePdf(@RequestParam("path") String path, @RequestParam("textToAdd") String textToAdd){
 		ArrayList<Utente> utenti = utenteService.showAllUtenti();
-		fileService.updateFile(utenti, path, textToAdd);
+		pdfFileService.updateFile(utenti, path, textToAdd);
+		return utenti;
+	}
+	
+	@PutMapping("/excel-update")
+	public ArrayList<Utente> updateExcel(@RequestParam("path") String path, @RequestParam("textToAdd") String textToAdd){
+		ArrayList<Utente> utenti = utenteService.showAllUtenti();
+		excelFileService.updateFile(utenti, path, textToAdd);
 		return utenti;
 	}
 	

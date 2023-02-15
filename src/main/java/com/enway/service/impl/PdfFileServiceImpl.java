@@ -7,6 +7,7 @@ import java.util.ArrayList;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
 import com.enway.entity.Utente;
@@ -23,10 +24,11 @@ import com.itextpdf.text.pdf.PdfStamper;
 import com.itextpdf.text.pdf.PdfWriter;
 
 @Service
+@Component("pdfFileServiceImpl")
 public class PdfFileServiceImpl implements FileService {
 	private static final Logger logger = LoggerFactory.getLogger(PdfFileServiceImpl.class);
 
-	public void writeFile(ArrayList<Utente> utenti) {
+	public void writeFile(ArrayList<Utente> utenti, String path) {
 
 		try {
 
@@ -68,10 +70,7 @@ public class PdfFileServiceImpl implements FileService {
 		}
 	}
 
-	@Override
-<<<<<<< HEAD
-	public void updateFile(ArrayList<Utente> utenti) {
-=======
+
 	public void createFile() {
 		// TODO Auto-generated method stub
 		
@@ -79,16 +78,14 @@ public class PdfFileServiceImpl implements FileService {
 
 	@Override
 	public void updateFile(ArrayList<Utente> utenti, String path, String textToAdd) {
->>>>>>> ddf3a29086ed0dfc4f08803d29700f7e7a52de6d
+
 		// TODO Auto-generated method stub
 		try {
 			PdfReader pdfReader = new PdfReader(path);
-			
-			OutputStream outputStream = new FileOutputStream(new File(path));
-			
-			PdfStamper pdfStamper = new PdfStamper(pdfReader, outputStream);
-			
-			PdfContentByte canvas = pdfStamper.getOverContent(1); // ottiene il content stream della prima pagina del PDF
+						
+			PdfStamper pdfStamper = new PdfStamper(pdfReader, new FileOutputStream("C:/Users/n.laperna/Desktop/TestFile.pdf"));
+						
+			PdfContentByte canvas = pdfStamper.getOverContent(1);
 			
 			BaseFont font = BaseFont.createFont(BaseFont.HELVETICA, BaseFont.WINANSI, BaseFont.EMBEDDED);
 			
@@ -113,7 +110,7 @@ public class PdfFileServiceImpl implements FileService {
 	}
 
 	@Override
-	public void deleteFile() {
+	public void deleteFile(String path) {
 		// TODO Auto-generated method stub
 		
 	}

@@ -6,60 +6,67 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Set;
 
 import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.xssf.usermodel.XSSFCell;
 import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
 import com.enway.entity.Utente;
 import com.enway.service.FileService;
+import com.itextpdf.text.log.SysoCounter;
 
 @Service
+@Component("excelServiceImpl")
 public class ExcelServiceImpl implements FileService {
-	
+
 	private static final Logger logger = LoggerFactory.getLogger(PdfFileServiceImpl.class);
 
 	public void writeFile(ArrayList<Utente> utenti, String path) {
 		try {
 			XSSFWorkbook workbook = new XSSFWorkbook();
-			
+
 			XSSFSheet sheet = workbook.createSheet("First Try");
 			XSSFRow row = null;
-			
+
 			row = sheet.createRow(0);
 			Cell cell0 = row.createCell(0);
 			Cell cell1 = row.createCell(1);
 			Cell cell2 = row.createCell(2);
-			
+
 			cell0.setCellValue("Prova");
 			cell1.setCellValue("Numero");
 			cell2.setCellValue("Uno");
-			
-			/*List<String> names = utenti.stream().map(utente -> utente.getFirstName()).forEach(d -> {
-				String s = "";
-				if(s.equals(cell2))
-			});.collect(Collectors.toList());*/
-			
-			for(int i=0; i< utenti.size(); i++) {
-				row= sheet.createRow(i+1);
-				for(int j=0; j<3;j++) {
+
+			/*
+			 * List<String> names = utenti.stream().map(utente ->
+			 * utente.getFirstName()).forEach(d -> { String s = ""; if(s.equals(cell2))
+			 * });.collect(Collectors.toList());
+			 */
+
+			for (int i = 0; i < utenti.size(); i++) {
+				row = sheet.createRow(i + 1);
+				for (int j = 0; j < 3; j++) {
 					Cell cell = row.createCell(j);
-					if(j==0) {
+					if (j == 0) {
 						cell.setCellValue(utenti.get(i).getFirstName());
-					}else if(j==1) {
+					} else if (j == 1) {
 						cell.setCellValue(utenti.get(i).getLastName());
-					}else if(j==2) {
+					} else if (j == 2) {
 						cell.setCellValue(utenti.get(i).getAge());
 					}
 				}
 			}
 
 			FileOutputStream fos = new FileOutputStream(path);
-			
+
 			workbook.write(fos);
 			fos.close();
 			workbook.close();
@@ -67,62 +74,81 @@ public class ExcelServiceImpl implements FileService {
 		} catch (FileNotFoundException e) {
 
 			e.printStackTrace();
-			logger.error("Errore nella creazione del file {}");			
+			logger.error("Errore nella creazione del file {}");
 		} catch (IOException e) {
 
 			e.printStackTrace();
 			logger.error("Errore nella scrittura su workbook");
 		}
-		
-     }
+
+	}
 
 	@Override
-	public void updateFile(ArrayList<Utente> utenti, String path) {
+	public void updateFile(ArrayList<Utente> utenti, String path, String textToAdd) {
 		try {
 			FileInputStream inputStream = new FileInputStream(path);
 			XSSFWorkbook workbook = new XSSFWorkbook(inputStream);
 			
-			XSSFSheet sheet = workbook.createSheet("Second Try");
-			XSSFRow row = null;
-			
-			row = sheet.createRow(0);
-			Cell cell0 = row.createCell(0);
-			Cell cell1 = row.createCell(1);
-			Cell cell2 = row.createCell(2);
-			
-			cell0.setCellValue("Prova");
-			cell1.setCellValue("Numero");
-			cell2.setCellValue("Uno");
-			
-			/*List<String> names = utenti.stream().map(utente -> utente.getFirstName()).forEach(d -> {
-				String s = "";
-				if(s.equals(cell2))
-			});.collect(Collectors.toList());*/
-			
-			for(int i=0; i< utenti.size(); i++) {
-				row= sheet.createRow(i+1);
-				for(int j=0; j<3;j++) {
+			XSSFSheet sheet = workbook.getSheet("First Try");
+            if (sheet == null) {
+                sheet = workbook.createSheet("First Try");
+            }
+
+            // crea un set per tenere traccia degli elementi già presenti nel file Excel
+            ArrayList<Utente> elementiPresenti = new ArrayList<>();
+            int rowCount = sheet.getLastRowNum();
+            for (int i = 1; i <= rowCount; i++) {
+                XSSFRow row = sheet.getRow(i);
+                Utente utente = new Utente();
+                for(int j =0; j<3; j++) {
+                	Cell cell=row.getCell(j);
+                	if(j == 0) {
+                		utente.setFirstName(cell.getStringCellValue());
+                	}else if(j == 1) {
+                		utente.setLastName(cell.getStringCellValue());
+                	}else if(j == 2) {
+                		utente.setAge((int) cell.getNumericCellValue());
+                	}
+                }
+                elementiPresenti.add(utente);
+            }
+
+            ArrayList<Utente> utentiDaAggiungere = new ArrayList<>();
+            
+            for(Utente utente : utenti) {
+            	for(Utente utentePresente : elementiPresenti) {
+            		if(utentePresente.getFirstName()!= utente.getFirstName() || 
+            			utentePresente.getLastName()!= utente.getLastName() ||
+            			utentePresente.getAge()!=utente.getAge()) {
+            			utentiDaAggiungere.add(utente);
+            		}
+            	}
+            }
+            
+            for(Utente utenteDaAggiungere : utentiDaAggiungere) {
+            	XSSFRow row = sheet.createRow(sheet.getLastRowNum()+1);
+            	for(int j=0; j<3;j++) {
 					Cell cell = row.createCell(j);
 					if(j==0) {
-						cell.setCellValue(utenti.get(i).getFirstName());
+						cell.setCellValue(utenteDaAggiungere.getFirstName());
 					}else if(j==1) {
-						cell.setCellValue(utenti.get(i).getLastName());
+						cell.setCellValue(utenteDaAggiungere.getLastName());
 					}else if(j==2) {
-						cell.setCellValue(utenti.get(i).getAge());
+						cell.setCellValue(utenteDaAggiungere.getAge());
 					}
-				}
-			}
-
-			FileOutputStream fos = new FileOutputStream(path);
+            	}
 			
-			workbook.write(fos);
-			fos.close();
-			workbook.close();
-			logger.info("Excel creato");
+            }
+
+            // salva le modifiche nel file Excel
+            FileOutputStream outputStream = new FileOutputStream(path);
+            workbook.write(outputStream);
+            outputStream.close();
+			logger.info("Excel modificato");
 		} catch (FileNotFoundException e) {
 
 			e.printStackTrace();
-			logger.error("Errore nella creazione del file {}");			
+			logger.error("Errore nella modificazione del file {}");			
 		} catch (IOException e) {
 
 			e.printStackTrace();
@@ -135,12 +161,12 @@ public class ExcelServiceImpl implements FileService {
 	public void deleteFile(String path) {
 		File file = new File(path);
 
-        if (file.exists()) {
-            file.delete();
-            logger.info("Excel eliminato");
-        } else {
-        	logger.info("L'excel non esiste");
-        }
-		
+		if (file.exists()) {
+			file.delete();
+			logger.info("Excel eliminato");
+		} else {
+			logger.info("L'excel non esiste");
+		}
+
 	}
 }
