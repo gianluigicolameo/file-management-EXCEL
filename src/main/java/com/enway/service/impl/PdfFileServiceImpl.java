@@ -77,7 +77,7 @@ public class PdfFileServiceImpl implements FileService {
 	}
 
 	@Override
-	public void updateFile(ArrayList<Utente> utenti, String path, String textToAdd) {
+	public void updateFile(ArrayList<Utente> utenti, String path, String... textToAdd) {
 
 		// TODO Auto-generated method stub
 		try {
@@ -93,7 +93,7 @@ public class PdfFileServiceImpl implements FileService {
 			
 			canvas.setFontAndSize(font, 12);
 			
-			canvas.showTextAligned(Element.ALIGN_CENTER, textToAdd, 300, 500, 0);
+			canvas.showTextAligned(Element.ALIGN_CENTER, textToAdd[0], 300, 500, 0);
 			
 			canvas.endText();	
 			
