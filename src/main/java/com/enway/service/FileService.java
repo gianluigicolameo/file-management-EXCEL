@@ -13,5 +13,5 @@ public interface FileService {
 	
 	public void updateFile(ArrayList<Utente> utenti, String path, String textToAdd);
 
-	
+	public void readFile();
 }

@@ -71,11 +71,6 @@ public class PdfFileServiceImpl implements FileService {
 	}
 
 
-	public void createFile() {
-		// TODO Auto-generated method stub
-		
-	}
-
 	@Override
 	public void updateFile(ArrayList<Utente> utenti, String path, String textToAdd) {
 
@@ -111,6 +106,20 @@ public class PdfFileServiceImpl implements FileService {
 
 	@Override
 	public void deleteFile(String path) {
+		// TODO Auto-generated method stub
+		File file = new File(path);
+
+		if (file.exists()) {
+			file.delete();
+			logger.info("Pdf eliminato");
+		} else {
+			logger.info("Il pdf non esiste");
+		}
+	}
+
+
+	@Override
+	public void readFile() {
 		// TODO Auto-generated method stub
 		
 	}

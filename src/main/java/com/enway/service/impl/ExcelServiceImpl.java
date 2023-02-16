@@ -23,7 +23,6 @@ import com.enway.entity.Utente;
 import com.enway.service.FileService;
 import com.itextpdf.text.log.SysoCounter;
 
-@Service
 @Component("excelServiceImpl")
 public class ExcelServiceImpl implements FileService {
 
@@ -74,7 +73,7 @@ public class ExcelServiceImpl implements FileService {
 		} catch (FileNotFoundException e) {
 
 			e.printStackTrace();
-			logger.error("Errore nella creazione del file {}");
+			logger.error("Errore nella creazione del file");
 		} catch (IOException e) {
 
 			e.printStackTrace();
@@ -115,6 +114,10 @@ public class ExcelServiceImpl implements FileService {
 
             ArrayList<Utente> utentiDaAggiungere = new ArrayList<>();
             
+            //CONTAINS
+            //STRING POOL
+            //EQUALS
+            //EQUALE IGNORE CASE
             for(Utente utente : utenti) {
             	for(Utente utentePresente : elementiPresenti) {
             		if(utentePresente.getFirstName()!= utente.getFirstName() || 
@@ -149,7 +152,7 @@ public class ExcelServiceImpl implements FileService {
 		} catch (FileNotFoundException e) {
 
 			e.printStackTrace();
-			logger.error("Errore nella modificazione del file {}");			
+			logger.error("Errore nella modifica del file {}");			
 		} catch (IOException e) {
 
 			e.printStackTrace();
@@ -166,8 +169,13 @@ public class ExcelServiceImpl implements FileService {
 			file.delete();
 			logger.info("Excel eliminato");
 		} else {
-			logger.info("L'excel non esiste");
+			logger.error("L'excel non esiste");
 		}
+	}
 
+	@Override
+	public void readFile() {
+		// TODO Auto-generated method stub
+		
 	}
 }
