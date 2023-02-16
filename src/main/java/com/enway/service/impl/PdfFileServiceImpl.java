@@ -119,7 +119,7 @@ public class PdfFileServiceImpl implements FileService {
 
 
 	@Override
-	public void readFile() {
+	public void readFile(String path) {
 		// TODO Auto-generated method stub
 		
 	}
