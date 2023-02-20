@@ -71,9 +71,9 @@ public class UtenteController {
 	}
 	
 	@PutMapping("/excel-update")
-	public ArrayList<Utente> updateExcel(@RequestParam("path") String path, @RequestParam("textToAdd") String textToAdd){
+	public ArrayList<Utente> updateExcel(@RequestParam("path") String path){
 		ArrayList<Utente> utenti = utenteService.showAllUtenti();
-		excelFileService.updateFile(utenti, path, textToAdd);
+		excelFileService.updateFile(utenti, path);
 		return utenti;
 	}
 	

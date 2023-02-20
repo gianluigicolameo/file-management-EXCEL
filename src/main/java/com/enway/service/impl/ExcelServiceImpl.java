@@ -21,6 +21,7 @@ import org.springframework.stereotype.Component;
 
 import com.enway.entity.Utente;
 import com.enway.service.FileService;
+import com.itextpdf.text.log.SysoCounter;
 
 @Component("excelServiceImpl")
 public class ExcelServiceImpl implements FileService {
@@ -105,30 +106,69 @@ public class ExcelServiceImpl implements FileService {
 					} else if (j == 1) {
 						utente.setLastName(cell.getStringCellValue());
 					} else if (j == 2) {
-						utente.setAge((int) cell.getNumericCellValue());
+						utente.setAge(((int)cell.getNumericCellValue()));
 					}
 				}
 				elementiPresenti.add(utente);
 			}
 
-            ArrayList<Utente> utentiDaAggiungere = new ArrayList<>();
             
             //CONTAINS
             //STRING POOL
             //EQUALS
             //EQUALE IGNORE CASE
-            for(Utente utente : utenti) {
-            	for(Utente utentePresente : elementiPresenti) {
-            		if(utentePresente.getFirstName()!= utente.getFirstName() || 
-            			utentePresente.getLastName()!= utente.getLastName() ||
-            			utentePresente.getAge()!=utente.getAge()) {
-            			utentiDaAggiungere.add(utente);
+            
+            //Lista di utenti in stringhe presenti su db
+            ArrayList<String> utentiConcat= new ArrayList<>();
+            for(Utente utente:utenti) {
+            	String utenteConcat=utente.getFirstName()+ "/" +utente.getLastName()+"/"+utente.getAge();
+            	
+            	utentiConcat.add(utenteConcat);
+            }
+            System.out.println(utentiConcat);
+            
+            //Lista di utenti in stringhe presenti nell'excel
+            ArrayList<String> utentiExcelConcat= new ArrayList<>();
+            
+            for(Utente elementoPresente:elementiPresenti) {
+            	String utentePresenteConcat=elementoPresente.getFirstName()+ "/" +elementoPresente.getLastName()+ "/" +elementoPresente.getAge();
+            	utentiExcelConcat.add(utentePresenteConcat);
+            }
+            
+            System.out.println(utentiExcelConcat); 
+            //Check: se la stringa è presente in utenti excel non viene inserita nuovamente
+            for(String utenteConcat:utentiConcat) {
+            	if(!utentiExcelConcat.contains(utenteConcat)) {
+            		String[] anagrafiche = utenteConcat.split("/");
+            		String firstName = anagrafiche[0];
+            		String lastName = anagrafiche[1]; 
+            		int age = Integer.parseInt(anagrafiche[2]);
+            		XSSFRow row = sheet.createRow(rowCount + 1);
+            		for(int i=0; i<3; i++) {
+            			Cell cell=row.createCell(i);
+            			if(i==0) {
+            				cell.setCellValue(firstName);
+            			}else if(i==1) {
+            				cell.setCellValue(lastName);
+            			}else if(i==2) {
+            				cell.setCellValue(age);
+            			}
             		}
             	}
             }
             
+            /*for(Utente utente : utenti) {
+            	String utenteConcat = utente.getFirstName()+utente.getLastName()+utente.getAge();
+            	for(Utente utentePresente : elementiPresenti) {
+            		String utentePresenteConcat = utentePresente.getFirstName()+utentePresente.getLastName()+utentePresente.getAge();
+            		if(!utenteConcat.contains(utentePresenteConcat)) {
+            			utentiDaAggiungere.add(utentePresente);
+            		}
+            	}
+            }*/
+            
 
-			for (Utente utenteDaAggiungere : utentiDaAggiungere) {
+		/*	for (Utente utenteDaAggiungere : utentiDaAggiungere) {
 				XSSFRow row = sheet.createRow(sheet.getLastRowNum() + 1);
 				for (int j = 0; j < 3; j++) {
 					Cell cell = row.createCell(j);
@@ -140,8 +180,8 @@ public class ExcelServiceImpl implements FileService {
 						cell.setCellValue(utenteDaAggiungere.getAge());
 					}
 				}
-
-			}
+				System.out.println(utentiDaAggiungere);
+			}*/
 
 			// salva le modifiche nel file Excel
 			FileOutputStream outputStream = new FileOutputStream(path);
@@ -153,7 +193,7 @@ public class ExcelServiceImpl implements FileService {
 
 			e.printStackTrace();
 
-			logger.error("Errore nella modifica del file {}");			
+			logger.error("Errore nella modifica del file.");			
 		} catch (IOException e) {
 
 			e.printStackTrace();

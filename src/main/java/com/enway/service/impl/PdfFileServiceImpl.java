@@ -34,7 +34,7 @@ public class PdfFileServiceImpl implements FileService {
 
 			Document document = new Document();
 
-			OutputStream outputStream = new FileOutputStream(new File("C:/Users/n.laperna/Desktop/TestFile.pdf"));
+			OutputStream outputStream = new FileOutputStream(new File(path));
 
 			PdfWriter.getInstance(document, outputStream);
 
@@ -51,16 +51,9 @@ public class PdfFileServiceImpl implements FileService {
 			}
 			
 			document.add(orderedList);
-			
-            Image image = Image.getInstance("C:/Users/n.laperna/Downloads/image.png");
-            // Set the position of the image.
-            image.setAbsolutePosition(0, 0);
-            image.scaleToFit(70, 70);
- 
-            // Adding image to the document
-            document.add(image);
 
 			document.close();
+			
 			outputStream.close();
 
 			logger.info("Pdf creato con successo");
