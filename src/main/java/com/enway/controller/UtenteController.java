@@ -34,29 +34,29 @@ public class UtenteController {
 		return utenteService.showAllUtenti();
 	}
 	
-	@PostMapping("/utente")
+	@PostMapping("/utente-add")
 	public ArrayList<Utente> addUtente(@RequestBody Utente utente){
 		utenteService.addOrUpdateUtente(utente);
 		return utenteService.showAllUtenti();
 	}
-	@PutMapping("/utente")
+	@PutMapping("/utente-update")
 	public ArrayList<Utente> updateUtente(@RequestBody Utente utente){
 		utenteService.addOrUpdateUtente(utente);
 		return utenteService.showAllUtenti();
 	}
-	@DeleteMapping("/utente")
+	@DeleteMapping("/utente-delete")
 	public ArrayList<Utente> deleteUtente(@RequestParam Integer id){
 		utenteService.deleteUtente(id);
 		return utenteService.showAllUtenti();
 	}
-	@GetMapping("/excel")
+	@GetMapping("/excel-create")
 	public ArrayList<Utente> createExcel(@RequestParam String path){
 		ArrayList<Utente> utenti = utenteService.showAllUtenti();
 		excelFileService.writeFile(utenti, path);
 		return utenti;
 	}
 	
-	@GetMapping("/pdf")
+	@GetMapping("/pdf-create")
 	public ArrayList<Utente> createPdf(@RequestParam String path){
 		ArrayList<Utente> utenti = utenteService.showAllUtenti();
 		pdfFileService.writeFile(utenti, path);
@@ -83,14 +83,21 @@ public class UtenteController {
 		pdfFileService.readFile(path);
 		return utenti;
 	}
-	@DeleteMapping("/excel")
+	
+	@DeleteMapping("/excel-delete")
 	public void deleteExcel(@RequestParam String path){
 		excelFileService.deleteFile(path);		
 	}
-	@GetMapping
+	
+	@GetMapping("/excel-read")
 	public ArrayList<Utente> readExcel(@RequestParam String path){
 		ArrayList<Utente> utenti = utenteService.showAllUtenti();
 		excelFileService.readFile(path);
 		return utenti;
+	}
+	
+	@DeleteMapping("/pdf-delete")
+	public void deletePdf(@RequestParam String path){
+		pdfFileService.deleteFile(path);		
 	}
 }

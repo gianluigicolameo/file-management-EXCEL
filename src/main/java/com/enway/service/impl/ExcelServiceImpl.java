@@ -21,7 +21,6 @@ import org.springframework.stereotype.Component;
 
 import com.enway.entity.Utente;
 import com.enway.service.FileService;
-import com.itextpdf.text.log.SysoCounter;
 
 @Component("excelServiceImpl")
 public class ExcelServiceImpl implements FileService {

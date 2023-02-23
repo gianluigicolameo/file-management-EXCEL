@@ -15,8 +15,6 @@ import com.enway.entity.Utente;
 import com.enway.service.FileService;
 import com.itextpdf.text.Document;
 import com.itextpdf.text.DocumentException;
-import com.itextpdf.text.Element;
-import com.itextpdf.text.Image;
 import com.itextpdf.text.List;
 import com.itextpdf.text.ListItem;
 import com.itextpdf.text.pdf.BaseFont;
