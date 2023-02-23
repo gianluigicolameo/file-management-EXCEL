@@ -67,31 +67,44 @@ public class PdfFileServiceImpl implements FileService {
 	@Override
 	public void updateFile(ArrayList<Utente> utenti, String path, String... textToAdd) {
 
-		// TODO Auto-generated method stub
-		String inputFile = "input.pdf";
+		File file = new File(path);
 
-        PdfReader reader;
+		if (file.exists()) {
+			file.delete();
+		} else {
+			logger.info("Errore nell'eliminazione del vecchio PDF");
+		}
+
 		try {
-			reader = new PdfReader(inputFile);
-			PdfStamper stamper = new PdfStamper(reader, new FileOutputStream(inputFile));
-	        PdfContentByte canvas = stamper.getOverContent(1);
 
-	        canvas.saveState();
-	        canvas.beginText();
-	        canvas.setFontAndSize(BaseFont.createFont(), 12);
-	        canvas.setTextMatrix(100, 100);
-	        canvas.showText("Hello World");
-	        canvas.endText();
-	        canvas.restoreState();
+			Document document = new Document();
 
-	        stamper.close();
-	        reader.close();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (DocumentException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			OutputStream outputStream = new FileOutputStream(file);
+
+			PdfWriter.getInstance(document, outputStream);
+
+			document.open();
+
+			document.addTitle("Lista studenti");
+
+			// List orderedList = new List(List.ORDERED);
+
+			List orderedList = new List(List.ORDERED);
+
+			for (int i = 0; i < utenti.size(); i++) {
+				orderedList.add(new ListItem(utenti.get(i).toString()));
+			}
+
+			document.add(orderedList);
+
+			document.close();
+
+			outputStream.close();
+
+			logger.info("Pdf aggiornato con successo");
+
+		} catch (Exception e) {
+			logger.error("Errore nella modifica del file.");
 		}
         
 

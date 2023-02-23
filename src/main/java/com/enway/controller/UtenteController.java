@@ -63,6 +63,13 @@ public class UtenteController {
 		return utenti;
 	}
 	
+	@PutMapping("/excel-update")
+	public ArrayList<Utente> updateExcel(@RequestParam("path") String path){
+		ArrayList<Utente> utenti = utenteService.showAllUtenti();
+		excelFileService.updateFile(utenti, path);
+		return utenti;
+	}
+	
 	@PutMapping("/pdf-update")
 	public ArrayList<Utente> updatePdf(@RequestParam("path") String path, @RequestParam("textToAdd") String textToAdd){
 		ArrayList<Utente> utenti = utenteService.showAllUtenti();
@@ -70,10 +77,10 @@ public class UtenteController {
 		return utenti;
 	}
 	
-	@PutMapping("/excel-update")
-	public ArrayList<Utente> updateExcel(@RequestParam("path") String path){
+	@GetMapping("/excel-read")
+	public ArrayList<Utente> readExcel(@RequestParam String path){
 		ArrayList<Utente> utenti = utenteService.showAllUtenti();
-		excelFileService.updateFile(utenti, path);
+		excelFileService.readFile(path);
 		return utenti;
 	}
 	
@@ -87,13 +94,6 @@ public class UtenteController {
 	@DeleteMapping("/excel-delete")
 	public void deleteExcel(@RequestParam String path){
 		excelFileService.deleteFile(path);		
-	}
-	
-	@GetMapping("/excel-read")
-	public ArrayList<Utente> readExcel(@RequestParam String path){
-		ArrayList<Utente> utenti = utenteService.showAllUtenti();
-		excelFileService.readFile(path);
-		return utenti;
 	}
 	
 	@DeleteMapping("/pdf-delete")
