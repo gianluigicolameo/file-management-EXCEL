@@ -29,6 +29,10 @@ public class UtenteController {
 	@Qualifier("excelServiceImpl")
 	private FileService excelFileService;
 	
+	@Autowired
+	@Qualifier("txtFileServiceImpl")
+	private FileService txtFileService;
+	
 	@GetMapping("/utenti")
 	public ArrayList<Utente> showUtenti() {
 		return utenteService.showAllUtenti();
@@ -63,10 +67,24 @@ public class UtenteController {
 		return utenti;
 	}
 	
+	@GetMapping("/txt-create")
+	public ArrayList<Utente> createTxt(@RequestParam String path){
+		ArrayList<Utente> utenti = utenteService.showAllUtenti();
+		txtFileService.writeFile(utenti, path);
+		return utenti;
+	}
+	
 	@PutMapping("/pdf-update")
 	public ArrayList<Utente> updatePdf(@RequestParam("path") String path, @RequestParam("textToAdd") String textToAdd){
 		ArrayList<Utente> utenti = utenteService.showAllUtenti();
 		pdfFileService.updateFile(utenti, path, textToAdd);
+		return utenti;
+	}
+	
+	@PutMapping("/txt-update")
+	public ArrayList<Utente> updateTxt(@RequestParam("path") String path, @RequestParam("textToAdd") String textToAdd){
+		ArrayList<Utente> utenti = utenteService.showAllUtenti();
+		txtFileService.updateFile(utenti, path, textToAdd);
 		return utenti;
 	}
 	
@@ -81,6 +99,13 @@ public class UtenteController {
 	public ArrayList<Utente> readPdf(@RequestParam("path") String path){
 		ArrayList<Utente> utenti = utenteService.showAllUtenti();
 		pdfFileService.readFile(path);
+		return utenti;
+	}
+	
+	@GetMapping("/txt-read")
+	public ArrayList<Utente> readTxt(@RequestParam("path") String path){
+		ArrayList<Utente> utenti = utenteService.showAllUtenti();
+		txtFileService.readFile(path);
 		return utenti;
 	}
 	
@@ -99,5 +124,10 @@ public class UtenteController {
 	@DeleteMapping("/pdf-delete")
 	public void deletePdf(@RequestParam String path){
 		pdfFileService.deleteFile(path);		
+	}
+	
+	@DeleteMapping("/txt-delete")
+	public void deleteTxt(@RequestParam String path){
+		txtFileService.deleteFile(path);		
 	}
 }
