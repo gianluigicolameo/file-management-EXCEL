@@ -83,4 +83,14 @@ public class UtenteController {
 		pdfFileService.readFile(path);
 		return utenti;
 	}
+	@DeleteMapping("/excel")
+	public void deleteExcel(@RequestParam String path){
+		excelFileService.deleteFile(path);		
+	}
+	@GetMapping
+	public ArrayList<Utente> readExcel(@RequestParam String path){
+		ArrayList<Utente> utenti = utenteService.showAllUtenti();
+		excelFileService.readFile(path);
+		return utenti;
+	}
 }
