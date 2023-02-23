@@ -77,4 +77,10 @@ public class UtenteController {
 		return utenti;
 	}
 	
+	@GetMapping("/pdf-read")
+	public ArrayList<Utente> readPdf(@RequestParam("path") String path){
+		ArrayList<Utente> utenti = utenteService.showAllUtenti();
+		pdfFileService.readFile(path);
+		return utenti;
+	}
 }
